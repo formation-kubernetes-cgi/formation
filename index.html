@@ -717,7 +717,116 @@ spec:
 						<ul>
 							<li>Docker philosophie goes towards having the exact same image beetween environments</li>
 							<li>Each environments has it's own specificities</li>
+							<li>It's common to use environment variables to store JDBC urls, spring profiles etc</li>
 						</ul>
+					</section>
+					<section>
+						<pre>
+<code data-trim class="yml">
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql
+spec:
+  containers:
+    - name: mysql-pod
+      image: mysql:5.7.24
+      imagePullPolicy: IfNotPresent
+      env:
+       - name: MYSQL_ROOT_PASSWORD
+       value: root
+       - name: MYSQL_USER
+       value: admin
+       - name: MYSQL_URL
+       value: $(MYSQL_USER):$(MYSQL_ROOT_PASSWORD)@localhost:1521
+</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Configuration & Secrets</h2>
+						<ul>
+							<li>But... Using environment variables has it's problems</li>
+							<li>Each environment have to have it's own descriptor</li>
+							<li>Descriptors are Source Code and thus should not be environment dependant</li>
+							<li><b>ConfigMap</b> to the rescue !</li>
+						</ul>
+					</section>
+					<section>
+						<pre>
+<code data-trim class="yml">
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map
+data:
+  app.version: 1.0.0
+  app.context-liquibase: develop
+  app.sha1: d7d9b5cd7a9aa501301f572477982315ded06c29
+</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Configuration & Secrets</h2>
+						<ul>
+							<li>ConfigMap can be created via descriptors</li>
+							<li>Keys must be valid environment variables</li>
+							<li>ConfigMap must be created before referencing it to a Pod </li>
+							<li>If using a Pod is using a key which is not in a ConfigMap the Pod will not start</li>
+							<li>ConfigMap are valid inside they own namespace</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Configuration & Secrets</h2>
+						<ul>
+							<li>Sometimes, some informations are to important to be left in a ConfigMap</li>
+							<li>You will want to store sensible information like credentials, SSH keys, certificates...</li>
+							<li><b>Secrets</b> is the answer</li>
+						</ul>
+					</section>
+					<section>
+						<pre>
+<code data-trim class="yml">
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-password-secret
+type: Opaque
+data:
+  db.password: VGgxczFzUkBAdCE=
+</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Configuration & Secrets</h2>
+						<ul>
+							<li>You can use Secrets & ConfigMaps just as you'd use environment variables, in fact, they just contains the values of the environments variables </li>
+						</ul>
+					</section>
+					<section>
+						<pre>
+<code data-trim class="yml">
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql
+spec:
+  containers:
+    - name: mysql-pod
+      image: mysql:5.7.24
+      imagePullPolicy: IfNotPresent
+      env:
+       - name: MYSQL_ROOT_PASSWORD
+         valueFrom: 
+           secretKeyRef:
+             name: database-config-secrets
+             key: db.password
+       - name: MYSQL_ROOT_USER
+         valueFrom:
+           configMapKeyRef:
+             name: database-config 
+             key: db.user
+</code>					
+</pre>	
 					</section>
 				</section>
 			</div>
