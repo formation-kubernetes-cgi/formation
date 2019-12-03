@@ -493,6 +493,232 @@ kubectl describe nginx | grep Annotations
 							<li>Ingresses</li>
 						</ul>
 					</section>
+					<section>
+						<ul>
+							<li>Pods are ephemeral</li>
+							<li>Kubernetes assign each pods a new IP Address just before it's created</li>
+							<li>Client application should not have to know each pod address</li>
+							<li>That's why <b>Services</b> are usefull</li>
+						</ul>
+					</section>
+					<section>
+						<ul>
+							<li>Services are created to give a single entry point to one or more pods</li>
+							<li>Each service obtain an IP Adresse which doesn't change until it's deleted</li>
+							<li>Client application should target theses IP addresses along with a port number</li>
+							<li>Each pod can live / die behind a service has it's IP doesn't have to be known</li>
+						</ul>
+					</section>
+					<section>
+						<ul>
+							<li>Each Service has a type</li>
+							<li>By default a Service is of type ClusterIP</li>
+							<li>The IP Address of the service is internal to the cluster</li> 
+							<li>It's a virtual IP, it can't be pinged !</li>
+							<li>Services can expose multiple ports !</li>
+						</ul>
+					</section>
+					<section>
+						<p>A typical Spring Boot app exposing main port & admin port</p>
+						<pre>
+<code data-trim class="yml">
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-springboot
+spec:
+  selector:
+    app: svc-springboot
+  ports:
+  - port: 80
+    targetPort: 8080
+  - port: 8000
+    targetPort: 8081
+</code>
+						</pre>
+					</section>
+					<section>
+						<ul>
+							<li>You can even name the ports !</li>
+							<li>This way, resources using these ports will not be impacted if they change</li>
+						</ul>
+					</section>
+					<section>
+<pre>
+<code data-trim class="yml">
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-springboot
+spec:
+  selector:
+	app: svc-springboot
+  ports:
+	- port: 80
+      name: web
+	  targetPort: 8080
+	- port: 8000
+      name: admin
+      targetPort: 8081
+</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Service discovery</h2>
+						<ul>
+							<li>ClusterIP is not an easy way to talk with the services</li>
+							<li>Each services can be accessed though the internal Kube DNS via their DNS address</li>
+							<li><b>serviceName.namespace.svc.cluster.local</b></li>
+							<li>Inside the same namespace, each service can be accessed only though their name</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Accessing Services from outside the Kube cluster</h2>
+					</section>
+					<section>
+						<p>If you want to access any service from outside, you must change it's type</p>
+						<ul>
+							<li>NodePort</li>
+							<li>LoadBalancer</li>
+						</ul>
+						<p>Or use an Ingress Controller (more on that later)</p>
+					</section>
+					<section>
+						<h2>NodePort Service</h2>
+						<ul>
+							<li>Kubernetes will assign the same port to each of it's node</li>
+							<li>For internal communication a ClusterIP is created</li>
+						</ul>
+					</section>
+					<section>
+						<pre>			
+<code data-trim class="yml">
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoami-nodeport
+spec:
+  type: NodePort
+  selector:
+    app: whoami
+  ports
+  - port: 8080 
+    targetPort: 80 
+    nodePort: 30123
+</code>
+			</pre>
+					</section>
+						<section>
+							<ul>
+								<li>If not port is specified, Kubernetes will assign one (30000-32767 by default)</li>
+							</ul>
+						</section>
+						<section>
+							<h2>Load Balancer Service</h2>
+							<ul>
+								<li>Some Cloud providers provide Load Balancing technology</li>
+								<li>When creating a service of this type, Kube will call the CP API to provision / configure the Cloud Service</li>
+								<li>When the load balancer is created, the IP address of this load balancer will be assigned to the service</li>
+								<li>Technically, this service uses NodePort to allow the external load balancer to communicate to the Cluster</li>
+							</ul>
+						</section>
+						<section>
+							<h2>Ingress</h2>
+						</section>
+						<section>
+							<h2>Ingress</h2>
+							<ul>
+								<li>All the Kubernetes cluster are configured to work with external Load Balancers</li>
+								<li>NodePort is really not the easy way (and dirty)</li>
+								<li>Services works at the TCP layer. So no cookie affinity if working with HTTPs</li>
+								<li><b>Ingresses</b> are !</li>
+							</ul>
+						</section>
+						<section>
+							<h2>Ingress</h2>
+							<ul>
+								<li>To use the ingress ressource, you will have to setup an Ingress Controller</li>
+								<li>Multiple Ingress Controllers exists (nginx, Traefik, Haproxy...)</li>
+							</ul>
+						</section>
+				</section>
+				<section>
+					<section>
+						<h1>Chapter VI</h1>
+						<h3>Deployments</h3>
+					</section>
+					<section>
+						<h2>Deployments</h2>
+						<ul>
+							<li>When working with pods, you will have to configure each individual pods, labelling them to be used by specific Services</li>
+							<li>Rolling updates are pretty painfull</li>
+							<li>Scalability is a no go when working only with pods</li>
+						</ul>
+					</section>
+					<section>
+<pre>
+<code data-trim class="yml">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubia
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: kubia
+    spec:
+      containers:
+      - name: kubia-node
+        image: luksa/kubia:v1
+</code>
+</pre>
+					</section>
+					<section>
+						<h2>Deployments</h2>
+						<p>
+							<em>Apply</em> this file and check the <em>rollout</em> of the <em>deployment</em> 
+						</p>
+					</section>
+					<section>
+						<pre>
+							<code data-trim class="bash">
+								kubectl apply -f kubia.yml
+								kubectl rollout status deployment kubia
+								kubectl rollout history deployment kubia 
+								kubectl rollout undo deployment kubia --to-revision=1
+							</code>
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Chapter VII</h1>
+						<h3>Volumes</h3>
+					</section>
+					<section>
+						<h2>Volumes</h2>
+						<ul>
+							<li>Files created inside a pod are ephemerals</li>
+							<li>When a pod is recreated, any new container will not have access to old container files</li>
+							<li>Multi-container pods might want to share files beetween them</li>
+							<li></li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Chapter VIII</h1>
+						<h3>Configuration & Secrets</h3>
+					</section>
+					<section>
+						<h2>Configuration & Secrets</h2>
+						<ul>
+							<li>Docker philosophie goes towards having the exact same image beetween environments</li>
+							<li>Each environments has it's own specificities</li>
+						</ul>
+					</section>
 				</section>
 			</div>
 		</div>
