@@ -8,11 +8,20 @@
 
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/white.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/monokai.css">
 
+		<style>
+			.reveal pre {
+				box-shadow: none;
+			}
+
+			.reveal pre code {
+				box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+			}
+		</style>
 		<!-- Printing and PDF exports -->
 		<script>
 			var link = document.createElement( 'link' );
@@ -25,8 +34,466 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1>Kubernetes 101</h1>
+					<p>
+						December 4-5-6<sup>th</sup> 2019 
+					</p>
+				</section>
+				<section>
+					<section>
+						<h1>Chapter I</h1>
+						<h3>About Us</h3>
+					</section>
+					<section>
+						<h2>Axel PEREIRA</h1>
+					</section>
+					<section>
+						<h2>Joani COUMA</h2>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Chapter II</h1>
+						<h3>Context</h3>
+					</section>
+					<section>
+						<h1>Kubernetes Kesako ?</h1>
+						<ul>
+							<li>Docker</li>
+							<li>Orchestrator</li>
+							<li>Container</li>
+						</ul>
+					</section>
+					<section>
+						<h1>Kubernetes 101</h1>
+						<ul>
+							<li>Orchestrating Docker Images</li>
+							<li>Specificaly designed to simplify the life cycle of containers</li>
+							<li><i>It knows</i> where to put your containers, and how much CPU / RAM to give.</li>
+						</ul>
+					</section>
+					<section>
+						<h1>Kubernetes 102</h1>
+						<ul>
+							<li>Failover management</li>
+							<li>HPA Capabilities (multi node setup)</li>
+							<li>Load Balancing</li>
+							<li>Inter container communication</li>
+						</ul>
+					</section>	
+					<section>
+						<h1>Kubernetes 103</h1>
+						<ul>
+							<li>Distributed / Persistent Storage</li>
+							<li>Secret & Configuration management</li>
+							<li>Scalable deployments</li>
+							<li>cli & api management</li>
+							<li>Full descriptive yml language</li>
+						</ul>
+					</section>	
+				</section>
+				<section>
+					<section>
+						<h1>Chapter III</h1>
+						<h3>Kubernetes Dive in</h3>
+					</section>
+					<section>
+						<h2>Minikube</h2>
+						<ul>
+							<li>Local Kubernetes Cluster</li>
+							<li>Single Node Setup (Master / Node)</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Kubernetes Resources</h2>
+						<ul>
+							<li>Pods</li>
+							<li>ReplicaSets</li>
+							<li>Deployment</li>
+							<li>Services</li>
+							<li>Ingress</li>
+							<li>Volumes</li>
+							<li>Configuration & Secrets</li>
+							<li>StatefullSets</li>
+							<li>Limit, Quotas, HPA</li>
+							<li>...</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Kubernetes Dashboard</h2>
+						<ul>
+							<li>Interact with a Kubernetes cluster visually</li>
+							<li>Know the state of resources </li>
+							<li>Access logs</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Kubernetes Dashboard</h2>
+							<pre>
+								<code data-trim class="bash">
+									minikube dashboard -url
+								</code>
+								<code data-trim class="bash">
+									kubectl proxy
+								</code>
+							</pre>
+					</section>
+					<section>
+						<h2>Kubernetes Cli kubectl</h2>
+						<ul>
+							<li>Main way to interact with a Kubernetes Cluster</li>
+							<li>Everything that can be done inside the Dashboard can be done through <b>kubectl</b></li>
+						</ul>
+					</section>
+					<section>
+						<h2>Kubernetes Cli kubectl</h2>
+						<h4>Level 1</h4>
+						<pre>
+							<code data-trim class="bash">
+								kubectl create 	# Create a resource from stdin or file
+								kubectl run 	# Run a particular Image
+								kubectl set 	# Set specific features on objects
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Kubernetes Cli kubectl</h2>
+						<h4>Level 2 (Resource manipulation)</h4>
+						<pre>
+							<code data-trim class="bash">
+								kubectl get 		# Display one or many resources
+								kubectl explain 	# Documentation of resources
+								kubectl edit 		# Set specific features on objects
+								kubectl delete  	# Delete resources by filename, resources / names
+								kubectl apply 		# Apply a new configuration to a ressource
+								kubectl label 		# Update a label on a resource
+								kubectl annotate 	# Update annotation on resources 
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Kubernetes Cli kubectl</h2>
+						<h4>Level 2 (Debug and Diagnostics)</h4>
+						<pre>
+							<code data-trim class="bash">
+								kubectl describe  	# Show details of a specific resource
+								kubectl logs 		# Print logs for a pod or container
+								kubectl attach		# Attach to a running container
+								kubectl exec		# Execute command in a container
+								kubectl port-forward	# Forward one or more locals ports to a pod
+								kubectl proxy		# Run a proxy to the Kubernetes API Server
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Kubernetes Cli kubectl</h2>
+						<h4>Level 3 (Deployments)</h4>
+						<pre>
+							<code data-trim class="bash">
+								kubectl rollout 	# Manage rollout of the resource
+								kubectl scale 		# Set a new size for a deployment
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Kubernetes Cli kubectl</h2>
+						<h4>Level 4 (Administration)</h4>
+						<pre>
+							<code data-trim class="bash">
+								kubectl cluster-info 	# Display cluster informations
+								kubectl top 		# Display Resources usages
+								kubectl drain		# Drain nodes in preparation for maintenance
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Kubernetes Cli kubectl</h2>
+						<h4>Other commands</h4>
+						<pre>
+							<code data-trim class="bash">
+								kubectl config 	# Update kubeconfig file
+								kubectl help 	# Help about any command
+								kubectl version # Print the client and server version informations
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Kubernetes Cli Hands-On</h2>
+					</section>
+					<section>
+						<p>
+							<em><b>Run</b>a new <b>nginx:latest</b> pod and <b>expose port 80</b> and <b>get</b> its informations on the command line</em>
+						</p>
+					</section>
+					<section>
+						<pre>
+							<code data-trim class="bash">
+								kubectl run nginx --image=nginx:latest --port=80
+								kubectl get pods
+								kubectl get pods -o wide
+								kubectl describe pods nginx
+							</code>
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Chapter IV</h1>
+						<h3>Pods & Organisation</h3>
+					</section>
+					<section>
+						<ul>
+							<li>Pods Concept & Model</li>
+							<li>Yaml Descriptors</li>
+							<li>Labels & Annotations</li>
+							<li>Namespaces</li>
+							<li>Pods lifecycles</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Pods</h2>
+					</section>
+					<section>
+						<ul>
+							<li>One or many containers contained inside one pod</li>
+							<li>Everything is based around a pod</li>
+							<li>Containers inside a pod share the same network</li>
+							<li>Containers inside a pod share the same volumes </li>
+						</ul>
+					</section>
+					<section>
+						<h1>SCHEMA NEEDED</h1>
+					</section>
+					<section>
+						<h2>Yaml descriptors</h2>
+					</section>
+					<section>
+						<h2>Nginx pod description</h2>
+						<pre>
+							<code data-trim class="yml">
+								apiVersion: v1
+								kind: Pod
+								metadata:
+								  name: nginx
+								spec:
+								  containers:
+								    - name: nginx
+								      image: nginx:latest
+								      imagePullPolicy: IfNotPresent
+								      ports:
+								      - containerPort: 80
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Describing the spec with explain</h2>
+						<pre>
+							<code data-trim class="bash">
+								kubectl explain pods
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Creating a resource way</h2>
+						<pre>
+							<code data-trim class="bash">
+								kubectl create -f pod-file.yml
+								kubectl apply -f pod-file.yml
+							</code>
+						</pre>
+					</section>
+					<section>
+						<p>
+							Multiple resources can be described in a single file by separating them by <b>---</b> (Three hyphens)
+						</p>
+					</section>
+					<section>
+						<h2>Organizing pods with labels (1/3)</h2>
+						<ul>
+							<li>In real life scenarios you will be working with more than one pod</li>
+							<li>Microservices, multi-environment, replication</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Organizing pods with labels (2/3)</h2>
+						<ul>
+							<li>Organize subgroups of pods</li>
+							<li>Add informations to pods / services</li>
+							<li>key/value pairs, keys must be unique !</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Organizing pods with labels (3/3)</h2>
+						<ul>
+							<li>Keys should be of the form <em>dns.prefix/name</em></li>
+							<li>dns prefix are optional</li>
+							<li>Values are any alphanumeric, 63 chars long, strings and can contain hyphens, underscores, points.</li>
+						</ul>
+					</section>
+					<section>
+						<pre>
+<code data-trim class="yml">
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels: 
+    cgi.com/my-label: foo
+    app: nginx
+    env: dev
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+	imagePullPolicy: IfNotPresent
+	ports:
+	- containerPort: 80
+</code>
+						</pre>
+					</section>
+					<section>
+						<ul>
+							<li>You can put labels on pretty <em>much everything</em></li>
+						</ul>
+						<pre>
+							<code data-trim class="bash">
+								kubectl get nodes --show-labels
+								kubectl get nodes --label-columns arch
+							</code>
+						</pre>
+					</section>
+					<section>
+						<ul>
+							<li>It is possible to constraint selected pods to selected nodes</li>
+						</ul>
+						<pre>
+<code data-trim class="yml">
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels: 
+  cgi.com/my-label: foo
+  app: nginx
+  env: dev
+spec:
+  nodeSelector:
+    ssd: 'true'
+  containers:
+  - name: nginx
+    image: nginx:latest
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 80
+</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Annotations (1/2)</h2>
+						<ul>
+							<li>Unlike labels, annotations are not designed to select specific resources</li>
+							<li>They are used to contains informations like Build number, pull request number, contact address...</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Annotations (2/2)</h2>
+						<pre>
+<code data-trim class="bash">
+kubectl annotate pod nginx cgi.com/created-by=coumaj
+
+kubectl describe nginx | grep Annotations
+</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Namespaces</h2>
+						<ul>
+							<li>To further more organize your clusters, you can (should) use namespaces</li>
+							<li>They are virtual clusters</li>
+							<li>They allow the grouping of multiples resources (of any types)</li>
+							<li>A resource name is unique inside a namespace (not a cluster)</li>
+							<li>Resources quotas can be setup on namespaces</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Namespaces</h2>
+						<ul>
+							<li>By default, you are using the default namespace</li>
+							<li>Namespaces can be created at any time, and every command you send to the cluster is sent against your current namespace</li>
+							<li>You can add the option --namespace=namespace-name to any command to target a specific namespace</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Namespaces</h2>
+						<pre>
+							<code data-trim class="bash">
+								kubectl config current-context # Show the current cluster
+								kubectl config set-context current-context --namespace=target-namespace
+								# The last command changes the current namespace
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Namespaces</h2>
+						<pre>
+							<code data-trim class="bash">
+								kubectl get ns
+								kubectl describe ns 
+								kubectl create ns 
+								kubectl create -f k8s-ns.yml 
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Namespaces</h2>
+						<ul>
+							<li>You can add in the metadata spec a key/value namespace=namespaceName</li>
+							<li>Or add it when using the command create / apply</li>
+						</ul>
+						<pre>
+							<code data-trim class="bash">
+								kubectl create -f file.yml -n namespace 
+								# Create a resource inside a specific namespace
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Namespaces</h2>
+						<ul>
+							<li>When deleting a namespace, you delete every resources inside it !</li>
+							<li>You can delete default namespaces (kube-system, default, kube-public)</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Pod lifecycle</h2>
+						<ul>
+							<li>When a pod dies, it can't be resurected</li>
+							<li>When a container inside a pod dies, depending on the restart policy, it can be automatically restarted</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Pods lifecycle</h2>
+						<ul>
+							<li>You can see the logs of a pod by using the command <b>kubectl logs</b></li>
+							<li>Or to see the logs of a specific container <b>kubectl logs podName -c containerName</b></li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Chapter V</h1>
+						<h3>Services</h3>
+					</section>
+					<section>
+						<ul>
+							<li>Services</li>
+							<li>Exposing internal Services</li>
+							<li>Exposing exteral Services</li>
+							<li>Ingresses</li>
+						</ul>
+					</section>
+				</section>
 			</div>
 		</div>
 
