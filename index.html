@@ -712,7 +712,78 @@ spec:
 							<li>Files created inside a pod are ephemerals</li>
 							<li>When a pod is recreated, any new container will not have access to old container files</li>
 							<li>Multi-container pods might want to share files beetween them</li>
-							<li></li>
+						</ul>
+					</section>
+					<section>
+						<h2>Volumes</h2>
+						<ul>
+							<li>Many types of volumes exists, we will focus on the main used </li>
+							<li>emptyDir : initialy empty dir</li>
+							<li>persistenVolumeClaim : dynamically allocated volumes</li>
+							<li>Volumes exposed by cloud providers (azureDisk for example)</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Volumes</h2>
+						<ul>
+							<li>emptyDir might not be as usefull as others, but it allows multiple containers inside a pod to share files</li>
+							<li>It's lifetime is linked to the pod lifetime</li>
+						</ul>
+					</section>
+					<section>
+						<pre>
+<code data-trim class="yml">
+apiVersion: apps/v1
+kind: Deplyment
+metadata:
+  name: kubia
+spec:
+  containers:
+    - image ….
+      volumeMounts:
+      - mountPath: /var/log/nginx
+        name: var-log-nginx
+    - image: ….
+      volumeMounts:
+      - mountPath: /data
+        name: var-log-nginx
+  volumes:
+  - name: var-log-nginx
+    emptyDir: {}
+</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Volumes</h2>
+						<ul>
+							<li>Managing disk space has to be taken from a specific approach</li>
+							<li>Using PersistentVolumes & PersistentVolumesClaims allows cluster admins to give an abstract layer to the volume management</li>
+							<li><b>PersistentVolume</b> is a storage reserved and configured by cluster admins</li>
+							<li><b>PersistentVolumesClaim</b> are storage requests the users can make to the PV</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Volumes</h2>
+						<ul>
+							<li>PersistentVolumes can be Static or Dynamic</li>
+							<li>Static PV are essentially direct storage access and persistent</li>
+							<li>Dynamic PV are PV created by the cluster</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Volumes</h2>
+						<ul>
+							<li>PVC are created by designing a wanted storage size</li>
+							<li>The cluster choose the correct PV corresponding to the size needed</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Volumes</h2>
+						<ul>
+							<li>3 access modes exists to get access to storage</li>
+							<li><b>ReadWriteOnce</b> : Only one node can mount the volume with read-write access</li>
+							<li><b>ReadOnlyMany</b> : Multiple node can mount the volume with read-only access</li>
+							<li><b>ReadWriteMany</b> : Multiple node can mount the volume with read-write access</li>
 						</ul>
 					</section>
 				</section>
@@ -840,7 +911,7 @@ spec:
 				</section>
 				<section>
 					<section>
-						<h2>Chapter X</h2>
+						<h1>Chapter X</h1>
 						<h3>Quotas</h3>
 					</section>
 					<section>
@@ -848,7 +919,42 @@ spec:
 						<ul>
 							<li>When creating Pods you can express specific limits on CPU & Ram allocated to the resources</li>
 							<li>Resources used by a Pod are the sum of all it's containers</li>
-							<li></li>
+						</ul>
+					</section>
+					<section>
+						<pre>
+<code data-trim class="yml">
+apiVersion: v1
+kind: Pod
+…
+  containers:
+    - name: db
+      image: mysql:5.7.24
+      ressources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "64Mi"
+          cpu: "250m"
+</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Quotas</h2>
+						<ul>
+							<li>A container can use more than it's requested memory if the node has enough</li>
+							<li>A container can't use more than it's limit memory</li>
+							<li>It could automatically be deleted by Kubernetes if it exceeds the limit value</li>
+							<li>A container can use use more than it's requested CPU if the node has enough</li>
+							<li>A container can't use more thant it's limit CPU</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Quotas</h2>
+						<ul>
+							<li>Kubernetes will choose by itself on wich node to setup a pod based on the requested CPU/Ram values</li>
+							<li>It is not the used memory / cpu in a specific point in time, but the sum of the requested values</li>
 						</ul>
 					</section>
 				</section>
