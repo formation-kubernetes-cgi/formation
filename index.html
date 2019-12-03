@@ -479,10 +479,19 @@ kubectl describe nginx | grep Annotations
 							<li>Or to see the logs of a specific container <b>kubectl logs podName -c containerName</b></li>
 						</ul>
 					</section>
+					<section>
+						<!-- Init containers -->
+					</section>
 				</section>
 				<section>
 					<section>
 						<h1>Chapter V</h1>
+						<h3>Pod Priority & Readiness</h3>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Chapter VI</h1>
 						<h3>Services</h3>
 					</section>
 					<section>
@@ -644,7 +653,7 @@ spec:
 				</section>
 				<section>
 					<section>
-						<h1>Chapter VI</h1>
+						<h1>Chapter VII</h1>
 						<h3>Deployments</h3>
 					</section>
 					<section>
@@ -694,7 +703,7 @@ spec:
 				</section>
 				<section>
 					<section>
-						<h1>Chapter VII</h1>
+						<h1>Chapter VIII</h1>
 						<h3>Volumes</h3>
 					</section>
 					<section>
@@ -709,7 +718,7 @@ spec:
 				</section>
 				<section>
 					<section>
-						<h1>Chapter VIII</h1>
+						<h1>Chapter IX</h1>
 						<h3>Configuration & Secrets</h3>
 					</section>
 					<section>
@@ -827,6 +836,20 @@ spec:
              key: db.user
 </code>					
 </pre>	
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Chapter X</h2>
+						<h3>Quotas</h3>
+					</section>
+					<section>
+						<h2>Quotas</h2>
+						<ul>
+							<li>When creating Pods you can express specific limits on CPU & Ram allocated to the resources</li>
+							<li>Resources used by a Pod are the sum of all it's containers</li>
+							<li></li>
+						</ul>
 					</section>
 				</section>
 			</div>
