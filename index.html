@@ -57,7 +57,30 @@
 						<h3>Docker & Containerisation</h3>
 					</section>
 					<section>
-						<!-- Containerisation -->
+						<h2>Containerisation</h2>
+						<h3>Problems</h3>
+						<ul>
+							<li>Environment reproducibility</li>
+							<li>Complexity to deploy</li>
+							<li>OS security patch</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Containerisation</h2>
+						<h3>Solution</h3>
+						<ul>
+							<li>Container isolation</li>
+							<li>Lightweight</li>
+							<li>Secure</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Docker</h2>
+						<ul>
+							<li>Build an image</li>
+							<li>Run a container</li>
+							<li>Composed of layers</li>
+						</ul>
 					</section>
 				</section>
 				<section>
@@ -231,7 +254,7 @@
 					</section>
 					<section>
 						<p>
-							<em><b>Run</b>a new <b>nginx:latest</b> pod and <b>expose port 80</b> and <b>get</b> its informations on the command line</em>
+							<em><b>Run</b> a new <b>nginx:latest</b> pod and <b>expose port 80</b> and <b>get</b> its informations on the command line</em>
 						</p>
 					</section>
 					<section>
@@ -467,7 +490,7 @@ kubectl describe nginx | grep Annotations
 						<h2>Namespaces</h2>
 						<ul>
 							<li>When deleting a namespace, you delete every resources inside it !</li>
-							<li>You can delete default namespaces (kube-system, default, kube-public)</li>
+							<li>You can't delete default namespaces (kube-system, default, kube-public)</li>
 						</ul>
 					</section>
 					<section>
@@ -485,13 +508,59 @@ kubectl describe nginx | grep Annotations
 						</ul>
 					</section>
 					<section>
-						<!-- Init containers -->
+						<h2>Init container</h2>
+						<ul>
+							<li>One or more init container</li>
+							<li>Sequential execution</li>
+							<li>It must succeed</li>
+							<li>Used to initialize or delay a container</li>
+						</ul>
 					</section>
 				</section>
 				<section>
 					<section>
 						<h1>Chapter V</h1>
-						<h3>Pod Priority & Readiness</h3>
+						<h3>Pod Priority & Health-probes</h3>
+					</section>
+					<section>
+						<h2>Pod priority</h2>
+						<ul>
+							<li>Protect critical pods</li>
+							<li>Multi env priority</li>
+							<li>Soft preemption policy</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Health-probes</h2>
+						<h3>Problems</h3>
+						<ul>
+							<li>Slow application startup</li>
+							<li>Incoming request before pod starts</li>
+							<li>Auto fail recovering</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Health-probes</h2>
+						<h3>Startup probes</h3>
+						<ul>
+							<li>Succeed or die</li>
+							<li>Protect slow starting containers</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Health-probes</h2>
+						<h3>Liveness probes</h3>
+						<ul>
+							<li>Restart stucked application</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Health-probes</h2>
+						<h3>Readiness</h3>
+						<ul>
+							<li>Allow routing on success</li>
+							<li>Disable routing on fail</li>
+						</ul>
 					</section>
 				</section>
 				<section>
@@ -792,7 +861,13 @@ spec:
 						</ul>
 					</section>
 					<section>
-
+						<h2>Volumes</h2>
+						<h3>Volume Claim Template</h3>
+						<ul>
+							<li>Managed by the ressource</li>
+							<li>Automatically create a PV</li>
+							<li>Can be configured with StorageClass</li>
+						</ul>
 					</section>
 				</section>
 				<section>
@@ -954,7 +1029,7 @@ kind: Pod
 							<li>A container can use more than it's requested memory if the node has enough</li>
 							<li>A container can't use more than it's limit memory</li>
 							<li>It could automatically be deleted by Kubernetes if it exceeds the limit value</li>
-							<li>A container can use use more than it's requested CPU if the node has enough</li>
+							<li>A container can use more than it's requested CPU if the node has enough</li>
 							<li>A container can't use more thant it's limit CPU</li>
 						</ul>
 					</section>
