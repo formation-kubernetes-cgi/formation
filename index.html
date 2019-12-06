@@ -1074,7 +1074,7 @@ kind: Pod
   containers:
     - name: db
       image: mysql:5.7.24
-      ressources:
+      resources:
         requests:
           memory: "64Mi"
           cpu: "250m"
@@ -1110,11 +1110,149 @@ kind: Pod
 					<section>
 						<h3>Helm</h3>
 						<ul>
-							<li>Templating and dependency management of K8S ressources</li>
+							<li>Templating and dependency management of K8S resources</li>
 							<li>All-in-one Stacks installations</li>
 							<li>Clean & reusable file tree</li>
 							<li>Helm VS Kustomize</li>
 						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Chapter XIII</h1>
+						<h3>Previously on Day 2</h3>
+					</section>
+					<section>
+						<h3>Configuration & Secrets</h3>
+						<ul>
+							<li>ConfigMap</li>
+							<li>Secrets</li>
+							<li>https://www.base64encode.org/</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Quotas</h3>
+						<ul>
+							<li>QoS Class</li>
+							<li>Request / Limit on CPU / RAM</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Health Probes</h3>
+						<ul>
+							<li>Readiness probes</li>
+							<li>Liveness probes</li>
+							<li>Startup propbes</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Pod Priority</h3>
+						<ul>
+							<li>Priority level</li>
+							<li>Only on install</li>
+						</ul>
+					</section>
+					<section>
+						<h3>K9s</h3>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Chapter XIV</h1>
+						<h3>DaemonSet</h3>
+					</section>
+					<section>
+						<ul>
+							<li>ReplicaSets (used by Deployments & StatefulSet) run any number of pods anywhere on the cluster</li>
+							<li>We might want to run one and only one pod on each nodes</li>
+							<li><b>DaemonSet !</b></li>
+						</ul>
+					</section>
+					<section>
+						<h3>DaemonSets</h3>
+						<ul>
+							<li>Logs collecting agent (fluentd, logstash, ... )</li>
+							<li>Metrics collecting agent (prometheus, zabbix, ... )</li>
+						</ul>
+					</section>
+					<section>
+						<h3>DaemonSets</h3>
+						<ul>
+							<li>If a new node is spawned, the DaemonSet will listen for that & create a new pod on the new node</li>
+							<li>You can use nodeSelector to select specific nodes to deploy pods from a DaemonSet</li>
+						</ul>
+					</section>
+					<section>
+						<pre>
+<code data-trim class="yml">
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: europe-west-monitor
+spec:
+  selector:
+    matchLabels:
+	  zone: europe-west
+  template:
+    metadata:
+      labels:
+        app: europe-west
+    spec:
+      nodeSelector:
+        zone: europe
+        sub-zone: west
+      containers:
+      - name: main
+        image: ….
+</code>
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Chapter XV</h1>
+						<h3>Job & CronJob</h3>
+					</section>
+					<section>
+						<ul>
+							<li>Pods run indefinitely until they die, restart, are stopped ... </li>
+							<li>You might want to run a task until it's finishes without restarting it</li>
+						</ul>
+					</section>
+					<section>
+						<ul>
+							<li>A Job will just start a pod and wait for it to finished with a success</li>
+							<li>If the Pod fails, a Job might restart it</li>
+						</ul>
+					</section>
+					<section>
+						<h3>CronJobs</h3>
+						<ul>
+							<li>Start a process at a later time or periodically</li>
+							<li>A CronJob creates Job</li>
+							<li>The Job creates a Pod</li>
+						</ul>
+					</section>
+					<section>
+						<pre>
+<code data-trim class="yml">
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello-cron
+spec:
+  schedule: "*/5 * * * *"
+    jobTemplate:
+      spec:
+        template:
+          spec:
+            containers:
+            - name: hello-cron
+              image: busybox
+              args: ["/bin/sh","-c", "date"]
+            restartPolicy: OnFailure
+</code>
+						</pre>
 					</section>
 				</section>
 			</div>
