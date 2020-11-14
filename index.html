@@ -91,7 +91,7 @@
 					<section>
 						<h1>Kubernetes Kesako ?</h1>
 						<ul>
-							<li>Docker</li>
+							<li>Cluster</li>
 							<li>Orchestrator</li>
 							<li>Container</li>
 						</ul>
@@ -163,10 +163,14 @@
 						<h2>Kubernetes Dashboard</h2>
 							<pre>
 								<code data-trim class="bash">
-									minikube dashboard -url
+									minikube dashboard -url &
 								</code>
 								<code data-trim class="bash">
-									kubectl proxy
+									kubectl proxy &
+								</code>
+								<code data-trim class="bash">
+									# on your local PC
+									ssh -L 127.0.0.1:8001:127.0.0.1:8001 vm-user@YOUR_IP
 								</code>
 							</pre>
 					</section>
@@ -776,7 +780,7 @@ spec:
 					</section>
 					<section>
 						<h2>TP3 - Schema</h2>
-						<img src="./img/ingress-TP3.png" style="padding: 10px;" >
+						<img src="./img/ingress-tp3.png" style="padding: 10px;" >
 					</section>
 					<section>
 						<h2>TP4 - Backend</h2>
@@ -789,11 +793,11 @@ spec:
 					</section>
 					<section>
 						<h2>TP4 - Schema</h2>
-						<img src="./img/backend-TP4.png" style="padding: 10px;" >
+						<img src="./img/backend-tp4.png" style="padding: 10px;" >
 					</section>
 					<section>
 						<h2>TP4 - Schema</h2>
-						<img src="./img/ingress-TP4.png" style="padding: 10px;" >
+						<img src="./img/ingress-tp4.png" style="padding: 10px;" >
 					</section>
 				</section>
 				<section>
