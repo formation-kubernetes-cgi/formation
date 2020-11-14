@@ -163,11 +163,17 @@
 						<h2>Kubernetes Dashboard</h2>
 							<pre>
 								<code data-trim class="bash">
-									minikube dashboard -url
+									minikube dashboard -url & 
 								</code>
 								<code data-trim class="bash">
-									kubectl proxy
+									kubectl proxy &
 								</code>
+								<code data-trim class="bash">
+									# en local
+									ssh -L 127.0.0.1:8001:127.0.0.1:8001 vm-user@40.114.211.166
+								</code>
+
+								à test ici il semblerait que deja enabled le kubectl proxy
 							</pre>
 					</section>
 					<section>
