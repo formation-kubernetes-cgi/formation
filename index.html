@@ -533,7 +533,7 @@ kubectl describe nginx | grep Annotations
 						<ul>
 							<li>Services</li>
 							<li>Exposing internal Services</li>
-							<li>Exposing exteral Services</li>
+							<li>Exposing external Services</li>
 							<li>Ingresses</li>
 						</ul>
 					</section>
@@ -598,12 +598,12 @@ spec:
   selector:
 	app: svc-springboot
   ports:
-	- port: 80
-      name: web
-	  targetPort: 8080
-	- port: 8000
-      name: admin
-      targetPort: 8081
+      - port: 80
+        targetPort: 8080
+        name: web
+      - port: 8000
+        targetPort: 8081
+        name: admin
 </code>
 						</pre>
 					</section>
@@ -645,7 +645,7 @@ spec:
   type: NodePort
   selector:
     app: whoami
-  ports
+  ports:
   - port: 8080 
     targetPort: 80 
     nodePort: 30123
@@ -832,14 +832,14 @@ spec:
 					<section>
 						<pre>
 							<code data-trim class="yml">
-								apiVersion: apps/v1
-								kind: Deplyment
-								metadata:
-								name: kubia
-								spec:
-								containers:
-								- image ….
-								volumeMounts:
+apiVersion: apps/v1
+kind: Deplyment
+metadata:
+  name: kubia
+spec:
+  containers:
+    - image ….
+      volumeMounts:
       - mountPath: /var/log/nginx
         name: var-log-nginx
     - image: ….
